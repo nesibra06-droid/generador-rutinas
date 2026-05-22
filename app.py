@@ -1,8 +1,6 @@
-from dotenv import load_dotenv
-from pathlib import Path
+
 import os
 
-load_dotenv(Path(__file__).parent / ".env")
 
 import streamlit as st
 from groq import Groq
