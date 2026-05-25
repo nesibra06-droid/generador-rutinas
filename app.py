@@ -3,6 +3,8 @@ import os
 
 
 from groq import Groq
+import streamlit as st
+st.set_page_config(page_title="Generador de rutinas", page_icon="💪")
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 def generar_rutina(objetivo, dias, nivel, feeling):
     respuesta = client.chat.completions.create(
