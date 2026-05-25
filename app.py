@@ -2,15 +2,16 @@
 import os
 
 
-import streamlit as st
+Import streamlit as st
 from groq import Groq
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
-def generar_rutina(objetivo, dias, nivel):
+def generar_rutina(objetivo, dias, nivel, feeling):
     respuesta = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[
-            {"role": "system", "content":f"Eres un entrenador personal experto en {objetivo}, te caracterizas por saber dar los mejores resultados adaptandote a cualquier circunstancia. Usa un tono directo pero seguro y audaz. Empieza SIEMPRE tu respuesta con una frase corta que demuestre confianza, como un entrenador real haría."},
-            {"role": "user", "content": f"Crea una rutina de {objetivo} para {dias} días a la semana, nivel {nivel}"}
+            {"role": "system", "content":f"Eres un entrenador personal experto en {objetivo}, te caracterizas por saber dar los mejores resultados adaptandote a {feeling} como estado de animo. Usa un tono directo pero seguro y audaz. Empieza SIEMPRE tu respuesta con una frase corta que demuestre confianza, como un entrenador real haría."},
+            {"role": "user", "content": f"Crea una rutina de {objetivo} para {dias} días a la semana, nivel {nivel} y con estado de animo {feeling}"}
+
         ]
     )
     st.write(respuesta.choices[0].message.content)
@@ -20,8 +21,14 @@ st.write("Tu entrenador personal con IA. Genera una rutina personalizada en segu
 objetivo = st.selectbox("¿Cuál es tu objetivo?", ["fuerza", "cardio", "estudio"])
 dias = st.slider("¿Cuántos días a la semana?", 1, 7)
 nivel = st.selectbox("¿Cuál es tu nivel?", ["principiante", "intermedio", "avanzado"])
-
+feeling= st.selectbox("¿Cómo te sientes hoy?",["Con toda la energía", "Normal", "Cansado", "Sin motivación"])
 if st.button("Generar rutina"):
+    if feeling == "Cansado" or feeling == "Sin motivación":
+        st.info("Hoy es difícil, pero estás aquí. Eso ya es ganar.")
     with st.spinner("Generando tu rutina..."):
-        generar_rutina(objetivo, dias, nivel)
+        generar_rutina(objetivo, dias, nivel, feeling)
+        
+
+
+
 
