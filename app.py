@@ -2,7 +2,6 @@
 import os
 
 
-Import streamlit as st
 from groq import Groq
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 def generar_rutina(objetivo, dias, nivel, feeling):
